@@ -97,12 +97,13 @@ function comprarProductos() {
         continuar = respuesta === "si";
     }
 
-    let listaProductos = "";
-    for (let codigo in productosSeleccionados) {
-        listaProductos += `${productosSeleccionados[codigo]} x Producto ${codigo}\n`;
-    }
-
-    alert(`Productos seleccionados:\n${listaProductos}\nTotal gastado: $${totalGastado}`);
+    if (totalGastado !== 0) {
+        let listaProductos = "";
+        for (let codigo in productosSeleccionados) {
+            listaProductos += `${productosSeleccionados[codigo]} x Producto ${codigo}\n`;
+        }
+		alert(`Productos seleccionados:\n${listaProductos}\nTotal gastado: $${totalGastado}`);
+	}
 }
 
 comprarProductos();
