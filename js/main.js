@@ -1,112 +1,76 @@
 
-// memo. función para calcular el precio total por producto y cantidad
-function calcularPrecio(cantidad, precioUnitario) {
-    return cantidad * precioUnitario;
+class Producto {
+    constructor(nombre, precio) {
+        this.nombre = nombre;
+        this.precio = precio;
+    }
 }
 
-// Use una función para mostrar la lista de productos
+class Carrito {
+    constructor() {
+        this.productos = [];
+    }
+
+    agregarProducto(producto) {
+        this.productos.push(producto);
+    }
+
+    calcularTotal() {
+        return this.productos.reduce((total, producto) => total + producto.precio, 0);
+    }
+
+    mostrarProductosEnCarrito() {
+        return this.productos.map(producto => `${producto.nombre} - $${producto.precio}`).join('\n');
+    }
+}
+
+const productos = [
+    new Producto("Paleta Cocida Cagnoli", 1840),
+    new Producto("Jamon Cocido Cagnoli", 3400),
+    new Producto("Jamon Natural Cagnoli", 4900),
+    new Producto("Lomo Ahumado Lario", 3810),
+    new Producto("Mortadela Bocha Calchaqui", 2110),
+    new Producto("Panceta Ahumada Bierzo", 4500),
+    new Producto("Salamines Cagnoli", 5380),
+    new Producto("Salame Cagnoli", 4060),
+    new Producto("Jamon Crudo Weber", 3500),
+    new Producto("Cantimpalo Lario", 3630),
+    new Producto("Holanda Varense", 2900),
+    new Producto("Reggiano Silvia", 3230),
+];
+
+const carrito = new Carrito();
+
 function mostrarProductos() {
     let mensaje = "Seleccione un producto ingresando su código numérico:\n";
-    mensaje += "1. Paleta Cocida\n";
-    mensaje += "2. Jamon Cocido\n";
-    mensaje += "3. Jamon Natural\n";
-    mensaje += "4. Lomo Ahumado\n";
-    mensaje += "5. Mortadela Bocha\n";
-    mensaje += "6. Panceta Ahumada\n";
-    mensaje += "7. Salaminces Cagnoli\n";
-    mensaje += "8. Salame Cagnoli\n";
-    mensaje += "9. Jamon Crudo\n";
-    mensaje += "10. Cantimpalo Lario\n";
-    mensaje += "11. Holanda Varense\n";
-    mensaje += "12. Reggiano Silvia\n";
-    mensaje += "0.  Cancelar compra y salir";
+    productos.forEach((producto, index) => {
+        mensaje += `${index + 1}. ${producto.nombre} - $${producto.precio}\n`;
+    });
+
     return parseInt(prompt(mensaje));
 }
 
-// Esta es la función primordial
-function comprarProductos() {
-    let continuar = true;
-    let totalGastado = 0;
-    let productosSeleccionados = {};
-
-    while (continuar) {
-        let codigoProducto = mostrarProductos();
-
-        if (codigoProducto === 0) {
-            continuar = false;
-            alert("Gracias por visitar nuestra tienda esperamos vuelva pronto");
-            break;
-        } else if (codigoProducto < 1 || codigoProducto > 12) {
-            alert("Código inválido. Por favor, seleccione un código numerico de los que figura en la lista.");
-            continue;
-        }
-
-        let cantidad = parseInt(prompt("Ingrese la cantidad que desea llevar:"));
-        if (isNaN(cantidad) || cantidad <= 0) {
-            alert("Cantidad inválida. Por favor, ingrese nuevamente una cantidad válida.");
-            continue;
-        }
-
-        let precioUnitario;
-        switch (codigoProducto) {
-            case 1:
-                precioUnitario = 1370;
-                break;
-            case 2:
-                precioUnitario = 1650;
-                break;
-            case 3:
-                precioUnitario = 2750;
-                break;
-            case 4:
-                precioUnitario = 3030;
-                break
-            case 5:
-                precioUnitario = 1790;
-                break;
-            case 6:
-                precioUnitario = 3300;
-                break;
-            case 7:
-                precioUnitario = 4300;
-                break;
-            case 8:
-                precioUnitario = 3900;
-                break;
-            case 9:
-                precioUnitario = 3590;
-                break;
-            case 10:
-                precioUnitario = 3380;
-                break;
-            case 11:
-                precioUnitario = 2520;
-                break;
-            case 12:
-                precioUnitario = 2900;
-                break;
-        }
-
-        totalGastado += calcularPrecio(cantidad, precioUnitario);
-        productosSeleccionados[codigoProducto] = (productosSeleccionados[codigoProducto] || 0) + cantidad;
-
-
-        /*Encontre en ejemplos la variable tolower case para pasar a minuscula cualquier texto ingresado 
-         por que aqui probandolo me jodia el algoritmo*/
-        let respuesta = prompt("¿Desea comprar otro producto? (Sí/No)").toLowerCase();
-        continuar = respuesta === "si";
+while (true) {
+    const opcion = mostrarProductos();
+    if (opcion < 1 || opcion > productos.length) {
+        alert("Opción inválida. Intente de nuevo.");
+        continue;
     }
 
-    if (totalGastado !== 0) {
-        let listaProductos = "";
-        for (let codigo in productosSeleccionados) {
-            listaProductos += `${productosSeleccionados[codigo]} x Producto ${codigo}\n`;
-        }
-		alert(`Productos seleccionados:\n${listaProductos}\nTotal gastado: $${totalGastado}`);
-	}
+    const productoElegido = productos[opcion - 1];
+    carrito.agregarProducto(productoElegido);
+
+    const continuar = prompt("¿Desea agregar otro producto al carrito? (Sí/No)").toLowerCase();
+    if (continuar !== "si") {
+        break;
+    }
 }
 
-comprarProductos();
+const carritoInfo = carrito.mostrarProductosEnCarrito();
+alert("Productos en el carrito:\n" + carritoInfo);
+
+const totalCarrito = carrito.calcularTotal();
+alert(`Total del carrito: $${totalCarrito}` +" "+ " Gracias  por su compra ");
 
 
 
