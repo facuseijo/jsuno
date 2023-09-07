@@ -4,7 +4,7 @@
 		"precio": 150,
 		"id": 1,
 		"title": "Fideos",
-		"thumbnailUrl": "imgs/fideos.jpg"
+		"thumbnailUrl": "imgs/fideosjpg"
 	},
 
 	{
@@ -18,7 +18,7 @@
 		"precio": 200,
 		"id": 3,
 		"title": "Salsa",
-		"thumbnailUrl": "imgs/salsa.jpeg"
+		"thumbnailUrl": "img/salsa.jpeg"
 	},
 
 	{
